@@ -25,7 +25,6 @@ function Success() {
         className="mt-8 rounded-full border-2 border-black px-8 py-3.5 text-sm font-bold text-black transition-all hover:bg-black hover:text-white"
       >
         Report another issue
-        {/* report-990uyg */}
       </button>
     </section>
   );

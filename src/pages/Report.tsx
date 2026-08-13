@@ -5,6 +5,7 @@ import {
   Camera,
   Check,
   ChevronRight,
+  Mic,
   X,
   MapPin,
 } from "lucide-react";
@@ -44,8 +45,10 @@ function Report({ categories }: ReportProps) {
   const [severity, setSeverity] = useState<string>("Medium");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoName, setPhotoName] = useState<string | null>(null);
-  const [ref, setRef] = useState<string | null>(null);
+  const [audioName, setAudioName] = useState<string | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const audioInputRef = useRef<HTMLInputElement>(null);
 
   const category = categories.find((c) => c.id === categoryId);
 
@@ -62,7 +65,7 @@ function Report({ categories }: ReportProps) {
 
   const canSubmit =
     subcategories.length > 0 &&
-    description.trim().length > 8 &&
+    description.trim().split(/\s+/).filter(Boolean).length >= 4 &&
     area.trim().length > 1;
 
   function reset() {
@@ -74,7 +77,8 @@ function Report({ categories }: ReportProps) {
     setSeverity("Medium");
     setPhotoPreview(null);
     setPhotoName(null);
-    setRef(null);
+    setAudioName(null);
+    setAudioUrl(null);
     navigate("/");
   }
 
@@ -95,7 +99,6 @@ function Report({ categories }: ReportProps) {
   function submit(e: FormEvent) {
     e.preventDefault();
     if (!canSubmit) return;
-    setRef(`CR-${Math.floor(1000 + Math.random() * 9000)}`);
     setStep("done");
   }
 
@@ -114,13 +117,26 @@ function Report({ categories }: ReportProps) {
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
+  function handleAudioChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAudioName(file.name);
+    setAudioUrl(URL.createObjectURL(file));
+  }
+
+  function removeAudio() {
+    setAudioName(null);
+    setAudioUrl(null);
+    if (audioInputRef.current) audioInputRef.current.value = "";
+  }
+
   const severityStyle: Record<string, string> = {
     Low: "border-black bg-black text-white",
     Medium: "border-black bg-white text-black",
     Urgent: "border-black bg-black text-white",
   };
 
-  if (step === "done" && ref) {
+  if (step === "done") {
     return (
       <section className="mx-auto max-w-lg pt-20 text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-black">
@@ -130,15 +146,6 @@ function Report({ categories }: ReportProps) {
         <h1 className="mt-8 text-3xl font-bold tracking-tight text-black sm:text-5xl">
           Report submitted.
         </h1>
-
-        <div className="mx-auto mt-7 inline-flex flex-col items-center rounded-2xl border-2 border-black/10 bg-white px-8 py-5">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-black/40">
-            Reference
-          </span>
-          <span className="mt-1 font-mono text-2xl font-bold tracking-tight text-black">
-            {ref}
-          </span>
-        </div>
 
         <p className="mx-auto mt-6 max-w-sm text-black/55">
           Your report has been received and is now visible to the
@@ -377,6 +384,55 @@ function Report({ categories }: ReportProps) {
             >
               <Camera className="h-5 w-5" />
               Attach a photo (optional)
+            </label>
+          )}
+        </div>
+
+        <div>
+          <input
+            ref={audioInputRef}
+            id="audio-upload"
+            type="file"
+            accept="audio/*"
+            onChange={handleAudioChange}
+            className="hidden"
+          />
+          {audioUrl ? (
+            <div className="flex items-center gap-4 rounded-xl border-2 border-black bg-white p-3">
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-black text-white">
+                <Mic className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="flex items-center gap-1.5 text-sm font-bold text-black">
+                  <Check className="h-4 w-4 flex-shrink-0" />
+                  Audio attached
+                </p>
+                <p className="truncate text-xs text-black/45">{audioName}</p>
+              </div>
+              <div className="flex flex-shrink-0 items-center gap-2">
+                <label
+                  htmlFor="audio-upload"
+                  className="cursor-pointer rounded-full border-2 border-black px-3 py-1.5 text-xs font-bold text-black transition-colors hover:bg-black hover:text-white"
+                >
+                  Change
+                </label>
+                <button
+                  type="button"
+                  onClick={removeAudio}
+                  aria-label="Remove audio"
+                  className="rounded-full p-1.5 text-black/40 transition-colors hover:bg-black/5 hover:text-black"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <label
+              htmlFor="audio-upload"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-black/25 bg-white p-4 text-sm font-medium text-black/55 transition-colors hover:border-black hover:text-black"
+            >
+              <Mic className="h-5 w-5" />
+              Attach an audio clip (optional)
             </label>
           )}
         </div>

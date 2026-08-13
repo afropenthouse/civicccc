@@ -20,6 +20,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Report from "./pages/Report";
 import Success from "./pages/Success";
+import Subscribe from "./pages/Subscribe";
 
 export type Category = {
   id: string;
@@ -78,6 +79,18 @@ const CATEGORIES = [
     subcategories: ["Government facility problems", "Public toilets", "Schools", "Hospitals", "Other public infrastructure"],
   },
   {
+    id: "elections",
+    name: "Elections",
+    Icon: Landmark,
+    subcategories: ["Voter registration issues", "Polling station problems", "Vote buying", "Election violence", "Results complaints"],
+  },
+  {
+    id: "tout-agbero",
+    name: "Tout/Agbero",
+    Icon: CircleHelp,
+    subcategories: ["Harassment", "Illegal fees/demands", "Assault", "Disorderly conduct", "Extortion"],
+  },
+  {
     id: "other",
     name: "Other",
     Icon: CircleHelp,
@@ -114,13 +127,45 @@ function App() {
           <Route path="/" element={<Home categories={CATEGORIES} howItWorks={HOW_IT_WORKS} />} />
           <Route path="/report/:categoryId" element={<Report categories={CATEGORIES} />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/subscribe" element={<Subscribe />} />
         </Routes>
       </main>
 
       <footer className="border-t-2 border-black/10 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-10 text-center text-sm text-black/45">
-          <p className="font-bold text-black">CivRes</p>
-          <p className="mt-1">Built for Nigerian cities</p>
+        <div className="mx-auto max-w-6xl px-6 py-12">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <p className="text-sm font-bold text-black">CivRes</p>
+              <p className="mt-2 text-sm leading-relaxed text-black/55">
+                A simple tool for Nigerians to report civic issues — bad roads, broken lights, flooding, and more — directly to the authorities.
+              </p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-black">Platform</p>
+              <ul className="mt-3 space-y-2 text-sm text-black/55">
+                <li>
+                  <Link to="/" className="transition-colors hover:text-black">
+                    Report an issue
+                  </Link>
+                </li>
+                <li>
+                  <span className="text-black/30">Anonymous & secure</span>
+                </li>
+                <li>
+                  <span className="text-black/30">Real-time tracking</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-black">About</p>
+              <p className="mt-2 text-sm leading-relaxed text-black/55">
+                Built to help Nigerian communities speak up and get things fixed. No sign-up, no personal data required.
+              </p>
+            </div>
+          </div>
+          <div className="mt-10 border-t-2 border-black/10 pt-6 text-center text-xs text-black/40">
+            &copy; {new Date().getFullYear()} CivRes. Built for Nigerian cities.
+          </div>
         </div>
       </footer>
     </div>
