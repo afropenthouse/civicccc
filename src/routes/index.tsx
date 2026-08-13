@@ -24,13 +24,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Civic Res — Report issues, improve Nigeria" },
+      { title: "Civic Res - Report issues, improve Nigeria" },
       {
         name: "description",
         content:
           "Help Nigeria become better by reporting safety, road, utility, flooding, waste, and public service issues in your community.",
       },
-      { property: "og:title", content: "Civic Res — Report issues, improve Nigeria" },
+      { property: "og:title", content: "Civic Res - Report issues, improve Nigeria" },
       {
         property: "og:description",
         content:
@@ -127,7 +127,7 @@ const HOW_IT_WORKS = [
   {
     step: "01",
     title: "Take a picture",
-    description: "Snap a photo of the issue right where it's happening — no account needed.",
+    description: "Snap a photo of the issue right where it's happening - no account needed.",
     Icon: Camera,
   },
   {
@@ -264,7 +264,7 @@ function Index() {
                 Report an issue.
               </h1>
               <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-[#0F172A]/55">
-                Help Nigeria become better — report the issues you
+                Help Nigeria become better - report the issues you
                 encounter every day, and get them in front of the people
                 who can fix them.
               </p>
