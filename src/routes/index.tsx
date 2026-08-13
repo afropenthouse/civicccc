@@ -462,7 +462,7 @@ function Index() {
       <footer className="border-t border-border/50 bg-blue-50/30">
         <div className="mx-auto max-w-5xl px-5 py-10 text-center text-sm text-muted-foreground">
           <p className="font-display font-semibold text-foreground">Civic Res</p>
-          <p className="mt-1">Built for Nigerian cities · Demo data, frontend only</p>
+          <p className="mt-1">Built for Nigerian cities</p>
         </div>
       </footer>
     </div>
